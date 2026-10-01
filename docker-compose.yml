@@ -1,0 +1,51 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - ai_network
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: unless-stopped
+    depends_on:
+      - ollama
+      - open-terminal
+    ports:
+      - "3000:8080"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - WEBUI_NAME=ᕮᐯᗩ
+    volumes:
+      - open_webui_data:/app/backend/data
+    networks:
+      - ai_network
+
+  open-terminal:
+    image: ghcr.io/open-webui/open-terminal:latest
+    container_name: open-terminal
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - OPEN_TERMINAL_API_KEY=SUA_API_KEY_AQUI
+      - OPEN_TERMINAL_MULTI_USER=true
+    volumes:
+      - open_terminal_data:/home
+    networks:
+      - ai_network
+
+volumes:
+  ollama_data:
+  open_webui_data:
+  open_terminal_data:
+
+networks:
+  ai_network:
+    driver: bridge
