@@ -10,7 +10,7 @@ Configuração do Open WebUI com Ollama, Open Terminal e personalização da int
 ### 1. Clonar o repositório
 
 ```bash
-git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git openwebui
+git clone https://github.com/VitorLidorio/EVA.git openwebui 
 ```
 
 ### 2. Entrar no diretório
